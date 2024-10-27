@@ -17,7 +17,7 @@ type server struct {
 	mu          sync.Mutex
 	clients     map[string]chittychat.ChittyChat_JoinChatServer
 	lamportTime int64
-	logger      *log.Logger // Add a logger field
+	logger      *log.Logger
 }
 
 func (s *server) JoinChat(req *chittychat.JoinRequest, stream chittychat.ChittyChat_JoinChatServer) error {
@@ -33,7 +33,7 @@ func (s *server) JoinChat(req *chittychat.JoinRequest, stream chittychat.ChittyC
 	}
 	s.broadcast(joinMessage)
 
-	// Use the logger to log the client joining along with the Lamport timestamp
+	// log the statements
 	logMessage := "Participant %s joined the chat with Lamport time %d"
 	s.logger.Printf(logMessage, clientID, s.lamportTime)
 
@@ -63,7 +63,7 @@ func (s *server) PublishMessage(ctx context.Context, req *chittychat.PublishRequ
 	s.broadcast(broadcastMessage)
 	s.mu.Unlock()
 
-	// Use the logger to log the published message along with the Lamport timestamp
+	// log the statements
 	logMessage := "Message from %s: %s (Lamport time: %d)"
 	s.logger.Printf(logMessage, clientID, message, s.lamportTime)
 	return &chittychat.PublishResponse{Success: true}, nil
@@ -83,7 +83,7 @@ func (s *server) LeaveChat(ctx context.Context, req *chittychat.LeaveRequest) (*
 	s.broadcast(leaveMessage)
 	s.mu.Unlock()
 
-	// Use the logger to log the client leaving along with the Lamport timestamp
+	// log the statements
 	logMessage := "Participant %s left the chat (Lamport time: %d)"
 	s.logger.Printf(logMessage, clientID, s.lamportTime)
 	return &chittychat.LeaveResponse{Success: true}, nil
@@ -97,14 +97,14 @@ func (s *server) broadcast(msg *chittychat.BroadcastMessage) {
 }
 
 func main() {
-	// Open a file for logging
+	// Opens a file for logging
 	logFile, err := os.OpenFile("serverLogUser.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening log file: %v", err)
 	}
 	defer logFile.Close()
 
-	// Create a new logger that writes to the file
+	// Creates a new logger that writes to the file
 	logger := log.New(logFile, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 
 	lis, err := net.Listen("tcp", ":50051")
@@ -115,7 +115,7 @@ func main() {
 	s := &server{
 		clients:     make(map[string]chittychat.ChittyChat_JoinChatServer),
 		lamportTime: 0,
-		logger:      logger, // Set the logger in the server struct
+		logger:      logger,
 	}
 	chittychat.RegisterChittyChatServer(grpcServer, s)
 
