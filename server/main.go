@@ -48,7 +48,7 @@ func (s *server) PublishMessage(ctx context.Context, req *chittychat.PublishRequ
 	clientID := req.GetClientId()
 	message := req.GetMessage()
 
-	// Make sure that the message is under 128 chars
+	// this if-statement makes sure that the message is under 128 chars
 	if len(message) > 128 {
 		return &chittychat.PublishResponse{Success: false, Error: "Message too long"}, nil
 	}
