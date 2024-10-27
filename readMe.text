@@ -1,0 +1,15 @@
+THIS IS A GUIDE TO RUN THE PROGRAM
+
+1. RUN THE SERVER
+    * Navigate to the server folder and type "go run main.go"
+
+2. RUN THE CLIENT (In a different terminal)
+    * Navigate to the client folder and type "go run client. go <username>"
+        * Note that <username> is an arbitrary name of your choosing
+        * Note that several clients can be run in different terminals
+
+3. SEND A MESSAGE
+    * Write a message in the client terminal
+
+4. LEAVE CHAT
+    * type "exit" to leave the chat 
