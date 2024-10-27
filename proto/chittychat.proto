@@ -13,7 +13,7 @@ service ChittyChat {
   // Publish a chat message.
   rpc PublishMessage(PublishRequest) returns (PublishResponse);
 
-  // Leave the chat gracefully.
+  // Leave the chat
   rpc LeaveChat(LeaveRequest) returns (LeaveResponse);
 }
 
