@@ -1,0 +1,47 @@
+// chittychat.proto
+syntax = "proto3";
+
+package chittychat;
+option go_package = "chittychat/proto/chittychat";
+
+
+service ChittyChat {
+  
+  // Join the chat and start receiving broadcast messages.
+  rpc JoinChat(JoinRequest) returns (stream BroadcastMessage);
+  
+  // Publish a chat message.
+  rpc PublishMessage(PublishRequest) returns (PublishResponse);
+
+  // Leave the chat gracefully.
+  rpc LeaveChat(LeaveRequest) returns (LeaveResponse);
+}
+
+message JoinRequest {
+  string client_id = 1;
+}
+
+message PublishRequest {
+  string client_id = 1;
+  string message = 2;
+}
+
+message PublishResponse {
+  bool success = 1;
+  string error = 2;
+}
+
+message LeaveRequest {
+  string client_id = 1;
+}
+
+message LeaveResponse {
+  bool success = 1;
+  string error = 2;
+}
+
+message BroadcastMessage {
+  string client_id = 1;
+  string message = 2;
+  int64 lamport_time = 3;
+}

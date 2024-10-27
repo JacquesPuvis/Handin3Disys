@@ -1,0 +1,4 @@
+INFO: 2024/10/27 14:42:45 main.go:122: Server started on port 50051
+INFO: 2024/10/27 14:43:03 main.go:38: Participant User1 joined the chat with Lamport time 1
+INFO: 2024/10/27 14:43:12 main.go:68: Message from User1: Hej (Lamport time: 2)
+INFO: 2024/10/27 14:43:14 main.go:88: Participant User1 left the chat (Lamport time: 3)
